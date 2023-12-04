@@ -2,21 +2,21 @@ data "http" "myipaddr" {
   url = "http://icanhazip.com"
 }
 
-### INGRESS ###
+### HTTP ###
 
-# INGRESS SECURITY GROUP
-resource "aws_security_group" "sg_allow_ingress" {
-  name        = "allow_ingress"
-  description = "allow selected ingress traffic"
+# HTTP SECURITY GROUP
+resource "aws_security_group" "sg_allow_http" {
+  name        = "allow_http"
+  description = "allow selected http traffic"
   vpc_id      = var.vpc_id
 
   tags = {
-    Name = "${var.project_name}-sg-igress"
+    Name      = "${var.project_name}-sg-http"
     ManagedBy = "Terraform"
   }
 }
 
-# INGRESS RULES
+# HTTP RULES
 resource "aws_security_group_rule" "http" {
   type              = "ingress"
   from_port         = 80
@@ -24,31 +24,69 @@ resource "aws_security_group_rule" "http" {
   protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]
   ipv6_cidr_blocks  = ["::/0"]
-  security_group_id = aws_security_group.sg_allow_ingress.id
+  security_group_id = aws_security_group.sg_allow_http.id
 }
 
-# COMMENTED OUT ATM SO THAT I DON'T NEED TO DEAL WITH CERTIFICATES
+resource "aws_security_group_rule" "http_on_3000" {
+  type              = "ingress"
+  from_port         = 3000
+  to_port           = 3000
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  ipv6_cidr_blocks  = ["::/0"]
+  security_group_id = aws_security_group.sg_allow_http.id
+}
 
-# resource "aws_security_group_rule" "https" {
-#   type = "ingress"
-#   from_port         = 443
-#   to_port           = 443
-#   protocol          = "tcp"
-#   cidr_blocks       = ["0.0.0.0/0"]
-#   ipv6_cidr_blocks  = ["::/0"]
-#   security_group_id = aws_security_group.sg_allow_ingress.id
-# }
+### HTTPS ###
 
+# HTTPS SECURITY GROUP
+resource "aws_security_group" "sg_allow_https" {
+  name        = "allow_https"
+  description = "allow selected https traffic"
+  vpc_id      = var.vpc_id
+
+  tags = {
+    Name      = "${var.project_name}-sg-https"
+    ManagedBy = "Terraform"
+  }
+}
+
+# HTTPS RULES
+resource "aws_security_group_rule" "https" {
+  type              = "ingress"
+  from_port         = 443
+  to_port           = 443
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  ipv6_cidr_blocks  = ["::/0"]
+  security_group_id = aws_security_group.sg_allow_https.id
+}
+
+### SSH ###
+
+# SSH SECURITY GROUP
+resource "aws_security_group" "sg_allow_ssh" {
+  name        = "allow_ssh"
+  description = "allow ssh from my users ip"
+  vpc_id      = var.vpc_id
+
+  tags = {
+    Name      = "${var.project_name}-sg-ssh"
+    ManagedBy = "Terraform"
+  }
+}
+
+# SSH RULES
 resource "aws_security_group_rule" "ssh" {
   type              = "ingress"
   from_port         = 22
   to_port           = 22
   protocol          = "tcp"
   cidr_blocks       = ["${chomp(data.http.myipaddr.response_body)}/32"]
-  security_group_id = aws_security_group.sg_allow_egress.id
+  security_group_id = aws_security_group.sg_allow_ssh.id
 }
 
-### EGRESS
+### EGRESS ###
 
 # EGRESS SECURITY GROUPS
 resource "aws_security_group" "sg_allow_egress" {
@@ -57,7 +95,7 @@ resource "aws_security_group" "sg_allow_egress" {
   vpc_id      = var.vpc_id
 
   tags = {
-    Name = "${var.project_name}-sg-egress"
+    Name      = "${var.project_name}-sg-egress"
     ManagedBy = "Terraform"
   }
 }
