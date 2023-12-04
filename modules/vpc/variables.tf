@@ -24,3 +24,4 @@ variable "azs" {
     description = "list of strings of the availability zones for subnet creation"
     type = list(string)
 }
+
