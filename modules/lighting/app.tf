@@ -16,7 +16,7 @@ data "aws_ami" "ubuntu" {
 # INSTANCE CREATION
 resource "aws_instance" "ec2_lighting" {
   ami                         = data.aws_ami.ubuntu.id
-  instance_type               = "t3.micro"
+  instance_type               = "t2.micro"
   associate_public_ip_address = true
   key_name                    = var.key_name
   vpc_security_group_ids      = var.security_group_ids
