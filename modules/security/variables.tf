@@ -1,7 +1,7 @@
 # PROJECT VARIABLES
 variable "project_name" {
   description = "name of the overall project"
-  type = string
+  type        = string
 }
 
 # SECURITY VARIABLES
