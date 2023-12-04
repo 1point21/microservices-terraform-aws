@@ -24,7 +24,7 @@ resource "aws_security_group_rule" "http" {
   protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]
   ipv6_cidr_blocks  = ["::/0"]
-  security_group_id = aws_security_group.sg_allow_http
+  security_group_id = aws_security_group.sg_allow_http.id
 }
 
 resource "aws_security_group_rule" "http_on_3000" {
@@ -34,7 +34,7 @@ resource "aws_security_group_rule" "http_on_3000" {
   protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]
   ipv6_cidr_blocks  = ["::/0"]
-  security_group_id = aws_security_group.sg_allow_http
+  security_group_id = aws_security_group.sg_allow_http.id
 }
 
 ### HTTPS ###
@@ -59,7 +59,7 @@ resource "aws_security_group_rule" "https" {
   protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]
   ipv6_cidr_blocks  = ["::/0"]
-  security_group_id = aws_security_group.sg_allow_https
+  security_group_id = aws_security_group.sg_allow_https.id
 }
 
 ### SSH ###
