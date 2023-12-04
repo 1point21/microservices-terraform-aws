@@ -1,1 +1,4 @@
 .terraform
+*.png
+.terraform.lock*
+terraform.tfstat*
