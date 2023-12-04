@@ -2,3 +2,4 @@
 *.png
 .terraform.lock*
 terraform.tfstat*
+modules/lighting/README.md
