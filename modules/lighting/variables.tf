@@ -19,8 +19,3 @@ variable "lighting_subnet_id" {
   description = "id of the subnet the lighting instance should be launched into"
   type = string
 }
-
-variable "instance_profile" {
-  description = "string value of IAM role to be attached to the ec2 instance"
-  type = string
-}
