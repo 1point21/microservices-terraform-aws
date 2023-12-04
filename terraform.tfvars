@@ -1,5 +1,5 @@
 # PROJECT
-project_name = "value"
+project_name = "ce-tf-project"
 
 # VPC
 vpc_cidr = "10.0.0.0/16"
