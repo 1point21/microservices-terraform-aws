@@ -46,3 +46,16 @@ module "status" {
   security_group_ids = module.security.security_group_ids
   status_subnet_id   = module.vpc.pub_sub_ids[0]
 }
+
+# CREATE LOAD BALANCER
+module "lb" {
+  source = "./modules/loadbalancer"
+
+  project_name      = var.project_name
+  vpc_id            = module.vpc.vpc_id
+  public_subnet_ids = module.vpc.pub_sub_ids
+  status_ec2_id     = module.status.ec2_status.id
+  heating_ec2_id    = module.heating.ec2_heating.id
+  lights_ec2_id     = module.lighting.ec2.id
+  lb_sec_group_sgs  = module.security.lb_security_group_ids
+}
