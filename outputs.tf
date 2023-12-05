@@ -13,3 +13,7 @@ output "heating_ec2" {
 output "heating_table" {
   value = module.heating.heating_table
 }
+
+output "status_ec2" {
+  value = module.status.ec2_status
+}
