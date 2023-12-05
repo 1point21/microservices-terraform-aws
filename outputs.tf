@@ -17,3 +17,8 @@ output "heating_table" {
 output "status_ec2" {
   value = module.status.ec2_status
 }
+
+output "lb_public_dns" {
+  description = "public dns of the load balancer"
+  value = module.lb.lb_public_dns
+}
