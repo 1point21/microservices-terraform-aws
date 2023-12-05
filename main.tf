@@ -41,8 +41,8 @@ module "heating" {
 module "status" {
   source = "./modules/status"
 
-  project_name = var.project_name
-  key_name = var.key_name
+  project_name       = var.project_name
+  key_name           = var.key_name
   security_group_ids = module.security.security_group_ids
-  status_subnet_id = module.vpc.pub_sub_ids[0]
+  status_subnet_id   = module.vpc.pub_sub_ids[0]
 }
