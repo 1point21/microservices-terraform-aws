@@ -21,6 +21,7 @@ resource "aws_instance" "ec2_heating" {
   key_name                    = var.key_name
   vpc_security_group_ids      = var.security_group_ids
   subnet_id                   = var.heating_subnet_id
+  iam_instance_profile        = "ec2-dynamodb-fullaccess"
 
   tags = {
     Name      = "${var.project_name}-ec2-heating"
