@@ -36,3 +36,13 @@ module "heating" {
   security_group_ids = module.security.security_group_ids
   heating_subnet_id  = module.vpc.pub_sub_ids[0]
 }
+
+# CREATE STATUS SERVER
+module "status" {
+  source = "./modules/status"
+
+  project_name       = var.project_name
+  key_name           = var.key_name
+  security_group_ids = module.security.security_group_ids
+  status_subnet_id   = module.vpc.pub_sub_ids[0]
+}
