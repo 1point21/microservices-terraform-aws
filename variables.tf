@@ -6,7 +6,7 @@ variable "project_name" {
 
 variable "services" {
   description = "a list of the services to be created"
-  type = list(string)
+  type        = list(string)
 }
 
 # VPC VARIABLES
@@ -40,15 +40,15 @@ variable "key_name" {
 #AUTO-SCALE VARIABLES
 variable "min_size" {
   description = "minimum size of the autoscaling group"
-  type = number
+  type        = number
 }
 
 variable "max_size" {
   description = "maximum size of the autoscaling group"
-  type = number
+  type        = number
 }
 
 variable "desired_size" {
   description = "desired size of the autoscaling group"
-  type = number
+  type        = number
 }
