@@ -4,25 +4,20 @@ variable "project_name" {
   type        = string
 }
 
+variable "services" {
+  description = "list of the services to be deployed"
+  type        = list(string)
+}
+
 # LB VARIABLES
 variable "vpc_id" {
   description = "id of the main vpc"
   type        = string
 }
 
-variable "status_ec2_id" {
-  description = "id of the ec2 hosting the status server"
-  type        = string
-}
-
-variable "lights_ec2_id" {
-  description = "id of the ec2 hosting the lights server"
-  type        = string
-}
-
-variable "heating_ec2_id" {
-  description = "id of the ec2 hosting the heating server"
-  type        = string
+variable "ec2_ids" {
+  description = "list of the ids of the servers created, in order as services passed in"
+  type        = list(string)
 }
 
 variable "lb_sec_group_sgs" {
