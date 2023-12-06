@@ -4,6 +4,11 @@ variable "project_name" {
   type        = string
 }
 
+variable "services" {
+  description = "a list of the services to be created"
+  type = list(string)
+}
+
 # VPC VARIABLES
 variable "vpc_cidr" {
   description = "cidr block value for the main vpc"
@@ -31,3 +36,19 @@ variable "key_name" {
   type        = string
 }
 
+
+#AUTO-SCALE VARIABLES
+variable "min_size" {
+  description = "minimum size of the autoscaling group"
+  type = number
+}
+
+variable "max_size" {
+  description = "maximum size of the autoscaling group"
+  type = number
+}
+
+variable "desired_size" {
+  description = "desired size of the autoscaling group"
+  type = number
+}
