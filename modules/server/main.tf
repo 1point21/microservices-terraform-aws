@@ -16,7 +16,7 @@ data "aws_ami" "ubuntu" {
 # INSTANCE CREATION
 resource "aws_instance" "service_ec2" {
   count = length(var.services)
-  
+
   ami                         = data.aws_ami.ubuntu.id
   instance_type               = "t2.micro"
   associate_public_ip_address = true

@@ -6,7 +6,7 @@ variable "project_name" {
 
 variable "services" {
   description = "list of the services to be deployed"
-  type = list(string)
+  type        = list(string)
 }
 
 # INSTANCE VARIABLES
