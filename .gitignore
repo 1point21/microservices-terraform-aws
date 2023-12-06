@@ -6,3 +6,4 @@ modules/lighting/README.md
 modules/heating/README.md
 .env*
 set-up.sh
+/modules/lighting/full*
