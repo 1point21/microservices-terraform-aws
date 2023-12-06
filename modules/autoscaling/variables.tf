@@ -4,9 +4,20 @@ variable "project_name" {
   type        = string
 }
 
+variable "services" {
+  description = "list of the services to be deployed"
+  type = list(string)
+}
+
+# ASG VARIABLES
 variable "key_name" {
-  description = "name of the key pair for ssh access to ec2"
+  description = "name of the key pair for ssh access to instances"
   type        = string
+}
+
+variable "ec2_ids" {
+  description = "list of the ids of the ec2s according to service"
+  type = list(string)
 }
 
 variable "security_group_ids" {
@@ -34,36 +45,7 @@ variable "autoscale_public_subnets" {
     type = list(string)
 }
 
-# AUTOSCALING VARIABLES
-#STATUS
-variable "status_ec2_id" {
-  description = "id of the ec2 hosting the status server"
-  type        = string
-}
-
-variable "status_tg_arn" {
-  description = "arn of the target group for the status apps"
-  type = string
-}
-
-#LIGHTS
-variable "lights_ec2_id" {
-  description = "id of the ec2 hosting the lights server"
-  type        = string
-}
-
-variable "lights_tg_arn" {
-  description = "arn of the target group for the lights apps"
-  type = string
-}
-
-#HEATING
-variable "heating_ec2_id" {
-  description = "id of the ec2 hosting the heating server"
-  type        = string
-}
-
-variable "heating_tg_arn" {
-  description = "arn of the target group for the heating apps"
-  type = string
+variable "tg_arns" {
+  description = "list of arns of the created target groups"
+  type = list(string)
 }

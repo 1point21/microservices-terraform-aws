@@ -1,65 +1,60 @@
 ### CREATE AMI IMAGES ###
 
 # STATUS AMI
-resource "aws_ami_from_instance" "status_ami" {
-  name = "${var.project_name}status_ami"
-  source_instance_id = var.status_ec2_id
+resource "aws_ami_from_instance" "service_ami" {
+  count = length(var.services)
+  name = "${var.project_name}-${var.services[count.index]}_ami"
+  source_instance_id = var.ec2_ids[count.index]
+
+    tags = {
+    Name      = "${var.project_name}-ami-${var.services[count.index]}"
+    ManagedBy = "Terraform"
+  }
 }
 
-# LIGHTS AMI
-resource "aws_ami_from_instance" "lights_ami" {
-  name = "${var.project_name}lights_ami"
-  source_instance_id = var.lights_ec2_id
-}
+### LAUNCH TEMPLATES ###
 
-# HEATING AMI
-resource "aws_ami_from_instance" "heating_ami" {
-  name = "${var.project_name}heating_ami"
-  source_instance_id = var.heating_ec2_id
-}
+resource "aws_launch_template" "service_launch_template" {
+  count = length(var.services)
 
-### LAUNCH TEMPLATES ### 
-# STATUS LAUNCH TEMPLATE
-resource "aws_launch_template" "status_launch_template" {
-  image_id = aws_ami_from_instance.app_server_ami.id
+  image_id = aws_ami_from_instance.service_ami[count.index].id
   instance_type = "t2.micro"
   key_name = var.key_name
-  user_data = filebase64("${path.module}/user-data.sh")
 
   network_interfaces {
     associate_public_ip_address = true
     security_groups = var.security_group_ids
   }
-
-  placement {
-    availability_zone = "eu-west-2a"
-  }
   
   tag_specifications {
     resource_type = "instance"
     tags = {
-      Name = "auto-scaling-ec2"
-    }
+    Name      = "${var.project_name}-launchtemplate-${var.services[count.index]}"
+    ManagedBy = "Terraform"
+    } 
   }
 }
 
 ### AUTOSCALE GROUPS ###
-# STATUS
-resource "aws_autoscaling_group" "status_asg" {
+
+resource "aws_autoscaling_group" "asg" {
+  count = length(var.services)
+  
   min_size             = var.min_size
   max_size             = var.max_size
   desired_capacity     = var.desired_size
   vpc_zone_identifier  = var.autoscale_public_subnets
 
   launch_template {
-    id = aws_launch_template.app_server_launch_template.id
+    id = aws_launch_template.service_launch_template[count.index].id
     version = "$Latest"
   }
 }
 
 ### AUTOSCALE-TARGETGROUP ATTACHMENT
-# STATUS
-resource "aws_autoscaling_attachment" "status_asg" {
-  autoscaling_group_name = aws_autoscaling_group.status_asg.name
-  lb_target_group_arn    = var.status_tg_arn
-}
+
+resource "aws_autoscaling_attachment" "service_attach" {
+  count = length(var.services)
+  autoscaling_group_name = aws_autoscaling_group.asg[count.index].name
+  lb_target_group_arn    = var.tg_arns[count.index]
+  }
