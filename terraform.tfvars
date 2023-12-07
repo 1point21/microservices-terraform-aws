@@ -1,5 +1,6 @@
 # PROJECT
 project_name = "ce-tf-project"
+services     = ["status", "lights", "heating"]
 
 # VPC
 vpc_cidr            = "10.0.0.0/16"
@@ -9,3 +10,8 @@ azs                 = ["eu-west-2a", "eu-west-2b", "eu-west-2c"]
 
 # INSTANCES
 key_name = "ce-project-key"
+
+# AUTOSCALING
+min_size     = 1
+max_size     = 3
+desired_size = 2

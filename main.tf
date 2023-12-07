@@ -17,34 +17,23 @@ module "security" {
   vpc_id       = module.vpc.vpc_id
 }
 
-# CREATE LIGHTING SERVER AND DB
-module "lighting" {
-  source = "./modules/lighting"
+# CREATE SERVERS
+module "servers" {
+  source = "./modules/server"
 
   project_name       = var.project_name
+  services           = var.services
   key_name           = var.key_name
+  subnet_id          = module.vpc.pub_sub_ids[0]
   security_group_ids = module.security.security_group_ids
-  lighting_subnet_id = module.vpc.pub_sub_ids[0]
 }
 
-# CREATE HEATING SERVER AND DB
-module "heating" {
-  source = "./modules/heating"
+# CREATE DATABASES
+module "databases" {
+  source = "./modules/database"
 
-  project_name       = var.project_name
-  key_name           = var.key_name
-  security_group_ids = module.security.security_group_ids
-  heating_subnet_id  = module.vpc.pub_sub_ids[0]
-}
-
-# CREATE STATUS SERVER
-module "status" {
-  source = "./modules/status"
-
-  project_name       = var.project_name
-  key_name           = var.key_name
-  security_group_ids = module.security.security_group_ids
-  status_subnet_id   = module.vpc.pub_sub_ids[0]
+  services     = var.services
+  project_name = var.project_name
 }
 
 # CREATE LOAD BALANCER
@@ -52,10 +41,61 @@ module "lb" {
   source = "./modules/loadbalancer"
 
   project_name      = var.project_name
+  services          = var.services
   vpc_id            = module.vpc.vpc_id
+  ec2_ids           = module.servers.ec2_ids
   public_subnet_ids = module.vpc.pub_sub_ids
-  status_ec2_id     = module.status.ec2_status.id
-  heating_ec2_id    = module.heating.ec2_heating.id
-  lights_ec2_id     = module.lighting.ec2.id
   lb_sec_group_sgs  = module.security.lb_security_group_ids
 }
+
+# CREATE AUTOSCALE
+module "autoscale" {
+  source = "./modules/autoscaling"
+
+  project_name             = var.project_name
+  services                 = var.services
+  key_name                 = var.key_name
+  min_size                 = var.min_size
+  max_size                 = var.max_size
+  desired_size             = var.desired_size
+  autoscale_public_subnets = module.vpc.asg_pub_subs
+  security_group_ids       = module.security.security_group_ids
+  tg_arns                  = module.lb.target_arns
+  ec2_ids                  = module.servers.ec2_ids
+
+}
+
+# CREATE TABLES
+
+# # CREATE LIGHTING SERVER AND DB
+# module "lighting" {
+#   source = "./modules/lighting"
+
+#   project_name       = var.project_name
+#   key_name           = var.key_name
+#   security_group_ids = module.security.security_group_ids
+#   lighting_subnet_id = module.vpc.pub_sub_ids[0]
+# }
+
+# # CREATE HEATING SERVER AND DB
+# module "heating" {
+#   source = "./modules/heating"
+
+#   project_name       = var.project_name
+#   key_name           = var.key_name
+#   security_group_ids = module.security.security_group_ids
+#   heating_subnet_id  = module.vpc.pub_sub_ids[0]
+# }
+
+# # CREATE STATUS SERVER
+# module "status" {
+#   source = "./modules/status"
+
+#   project_name       = var.project_name
+#   key_name           = var.key_name
+#   security_group_ids = module.security.security_group_ids
+#   status_subnet_id   = module.vpc.pub_sub_ids[0]
+# }
+
+
+
