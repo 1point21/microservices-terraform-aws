@@ -13,3 +13,8 @@ output "lb_security_group_ids" {
   value       = [aws_security_group.sg_allow_http.id, aws_security_group.sg_allow_https.id, aws_security_group.sg_allow_egress.id]
 }
 
+### TESTS OUTPUT ###
+output "security_groups" {
+  description = "a list of security group objects for testing purposes"
+  value = [aws_security_group.sg_allow_egress, aws_security_group.sg_allow_http, aws_security_group.sg_allow_https, aws_security_group.sg_allow_ssh] 
+}

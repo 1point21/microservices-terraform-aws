@@ -12,3 +12,7 @@ output "lb_public_dns" {
   description = "public dns of the load balancer"
   value       = module.lb.lb_public_dns
 }
+
+output "test" {
+  value = module.lb.target_groups
+}
