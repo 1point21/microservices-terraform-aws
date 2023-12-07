@@ -65,37 +65,5 @@ module "autoscale" {
 
 }
 
-# CREATE TABLES
-
-# # CREATE LIGHTING SERVER AND DB
-# module "lighting" {
-#   source = "./modules/lighting"
-
-#   project_name       = var.project_name
-#   key_name           = var.key_name
-#   security_group_ids = module.security.security_group_ids
-#   lighting_subnet_id = module.vpc.pub_sub_ids[0]
-# }
-
-# # CREATE HEATING SERVER AND DB
-# module "heating" {
-#   source = "./modules/heating"
-
-#   project_name       = var.project_name
-#   key_name           = var.key_name
-#   security_group_ids = module.security.security_group_ids
-#   heating_subnet_id  = module.vpc.pub_sub_ids[0]
-# }
-
-# # CREATE STATUS SERVER
-# module "status" {
-#   source = "./modules/status"
-
-#   project_name       = var.project_name
-#   key_name           = var.key_name
-#   security_group_ids = module.security.security_group_ids
-#   status_subnet_id   = module.vpc.pub_sub_ids[0]
-# }
-
 
 
