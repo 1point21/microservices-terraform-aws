@@ -9,6 +9,12 @@ variable "services" {
   type        = list(string)
 }
 
+variable "region" {
+  description = "region for the infrastructure to be deployed in"
+  type = string
+  default = "eu-west-2"
+}
+
 # VPC VARIABLES
 variable "vpc_cidr" {
   description = "cidr block value for the main vpc"
