@@ -1,7 +1,3 @@
-data "http" "myipaddr" {
-  url = "http://icanhazip.com"
-}
-
 ### HTTP ###
 
 # HTTP SECURITY GROUP
