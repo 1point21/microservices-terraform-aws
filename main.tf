@@ -1,6 +1,6 @@
 # CREATE VPC SUBNETS etc
 module "vpc" {
-  source = "./modules/vpc"
+  source = "./modules/networking"
 
   project_name = var.project_name
   vpc_cidr            = var.vpc_cidr
