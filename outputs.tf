@@ -12,3 +12,32 @@ output "lb_public_dns" {
   description = "public dns of the load balancer"
   value       = module.lb.lb_public_dns
 }
+
+output "test" {
+  value = module.lb.target_groups
+}
+
+### TERRATEST ###
+output "main_vpc_id" {
+  value       = module.vpc.main_vpc_id
+  description = "The main VPC id"
+}
+
+output "public_subnet_id" {
+  value       = module.vpc.public_subnet_id
+  description = "The public subnet id"
+}
+
+output "private_subnet_id" {
+  value       = module.vpc.private_subnet_id
+  description = "The private subnet id"
+}
+
+output "table_names" {
+  value = module.databases.table_names
+}
+
+output "sg_allow_http_rule" {
+  description = "entire object for the http rule"
+  value = module.security.sg_allow_http_rule
+}

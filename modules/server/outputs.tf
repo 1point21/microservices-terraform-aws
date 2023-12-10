@@ -11,3 +11,9 @@ output "ec2_ids" {
   description = "list of the ids of the servers created, in order as services passed in"
   value       = aws_instance.service_ec2[*].id
 }
+
+### TESTS OUTPUT ###
+output "servers" {
+  description = "a list of the servers created"
+  value = aws_instance.service_ec2[*]
+}
