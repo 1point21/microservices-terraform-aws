@@ -1,6 +1,6 @@
 # PROJECT
-project_name = "ce-tf-project"
-services     = ["status", "lights", "heating"]
+project_name = "project-name"
+services     = ["status", "service1", "service2"]
 
 # VPC
 vpc_cidr            = "10.0.0.0/16"
@@ -9,7 +9,7 @@ private_subnet_cidr = ["10.0.8.0/24", "10.0.9.0/24", "10.0.10.0/24"]
 azs                 = ["eu-west-2a", "eu-west-2b", "eu-west-2c"]
 
 # INSTANCES
-key_name = "ce-project-key"
+key_name = "ssh-key"
 
 # AUTOSCALING
 min_size     = 1
